@@ -98,6 +98,26 @@ spec:
           type: cmd
           cmd: "hey -z 1m -q 10 -c 2 http://frontend.sock-shop:8079/"
 ---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: front-end
+  namespace: sock-shop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        # scale up if usage is above
+        # 99% of the requested CPU (100m)
+        targetAverageUtilization: 99
+---
 apiVersion: flagger.app/v1beta1
 kind: Canary
 metadata:
@@ -159,6 +179,26 @@ spec:
   #        thresholdRange:
   #          max: 1000
   skipAnalysis: false #svc does not get traffic since other services like carts are not available
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: orders
+  namespace: sock-shop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: orders
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        # scale up if usage is above
+        # 99% of the requested CPU (100m)
+        targetAverageUtilization: 99
 ---
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -232,6 +272,28 @@ spec:
 #          max: 1000
 #  skipAnalysis: false #svc does not get traffic since other services like carts are not available
 ---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: payment
+  namespace: sock-shop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: payment
+
+  minReplicas: 1
+  maxReplicas: 4
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 90
+---
 apiVersion: flagger.app/v1beta1
 kind: Canary
 metadata:
@@ -297,6 +359,26 @@ spec:
 #        thresholdRange:
 #          max: 500
 #        interval: 30s
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: shipping
+  namespace: sock-shop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: shipping
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        # scale up if usage is above
+        # 99% of the requested CPU (100m)
+        targetAverageUtilization: 99
 ---
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -376,3 +458,194 @@ spec:
   #          max: 5000
   skipAnalysis: false
 ---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: catalogue
+  namespace: sock-shop
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: catalogue
+
+  minReplicas: 1
+  maxReplicas: 4
+
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 90
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flagger-loadtester
+  namespace: sock-shop
+  labels:
+    app: flagger-loadtester
+spec:
+  type: ClusterIP
+  selector:
+    app: flagger-loadtester
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagger-loadtester
+  namespace: sock-shop
+  labels:
+    app: flagger-loadtester
+spec:
+  selector:
+    matchLabels:
+      app: flagger-loadtester
+  template:
+    metadata:
+      labels:
+        app: flagger-loadtester
+      annotations:
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+        - name: loadtester
+          image: weaveworks/flagger-loadtester:0.13.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          command:
+            - ./loadtester
+            - -port=8080
+            - -log-level=info
+            - -timeout=1h
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - --quiet
+                - --tries=1
+                - --timeout=4
+                - --spider
+                - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - --quiet
+                - --tries=1
+                - --timeout=4
+                - --spider
+                - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsUser: 10001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flagger-loadtester
+  namespace: sock-shop
+  labels:
+    app: flagger-loadtester
+spec:
+  type: ClusterIP
+  selector:
+    app: flagger-loadtester
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagger-loadtester
+  namespace: sock-shop
+  labels:
+    app: flagger-loadtester
+spec:
+  selector:
+    matchLabels:
+      app: flagger-loadtester
+  template:
+    metadata:
+      labels:
+        app: flagger-loadtester
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        openservicemesh.io/inbound-port-exclusion-list: "80, 8080"
+    spec:
+      containers:
+        - name: loadtester
+          image: ghcr.io/fluxcd/flagger-loadtester:0.21.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          command:
+            - ./loadtester
+            - -port=8080
+            - -log-level=info
+            - -timeout=1h
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - --quiet
+                - --tries=1
+                - --timeout=4
+                - --spider
+                - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - --quiet
+                - --tries=1
+                - --timeout=4
+                - --spider
+                - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+            requests:
+              memory: "32Mi"
+              cpu: "10m"
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsUser: 10001
+---
+apiVersion: flagger.app/v1beta1
+kind: AlertProvider
+metadata:
+  name: on-call
+  namespace: flux-system
+spec:
+  type: discord
+  channel: flagger-bot
+  username: flagger-bot
+  secretRef:
+    name: discord-flagger-webhook
