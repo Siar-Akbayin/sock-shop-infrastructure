@@ -102,7 +102,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./istio/operator
+  path: ./kubernetes/istio/operator
   prune: true
   validation: client
   healthChecks:
@@ -123,7 +123,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./istio/system
+  path: ./kubernetes/istio/system
   prune: true
   validation: client
   healthChecks:
@@ -160,7 +160,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./istio/gateway
+  path: ./kubernetes/istio/gateway
   prune: true
   targetNamespace: istio-system
   validation: client
