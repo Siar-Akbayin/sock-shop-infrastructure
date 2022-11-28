@@ -1,0 +1,99 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: front-end
+  namespace: sock-shop
+spec:
+  # deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: front-end
+  # the maximum time in seconds for the canary deployment
+  # to make progress before it is rollback (default 600s)
+  progressDeadlineSeconds: 600
+  # HPA reference (optional)
+  autoscalerRef:
+    apiVersion: autoscaling/v2beta1
+    kind: HorizontalPodAutoscaler
+    name: front-end
+  service:
+    # container port
+    port: 8079
+    portName: http
+    # Istio gateways (optional)
+    gateways:
+      - istio-system/public-gateway
+    # Istio virtual service host names (optional)
+    hosts:
+      #     - front-end.transparent-sock-shop.de
+      - "*"
+    trafficPolicy:
+      tls:
+        # use ISTIO_MUTUAL when mTLS is enabled
+        mode: DISABLE
+  analysis:
+    # schedule interval (default 60s)
+    interval: 30s
+    # max number of failed metric checks before rollback
+    threshold: 25
+    # precentage before complete rollout
+    maxWeight: 70
+    # 10% steps
+    stepWeight: 10
+    # promotion increment step (default 100)
+    stepWeightPromotion: 100
+    # canary match condition
+    #    match:
+    #      - headers:
+    #          user-agent:
+    #            regex: ".*Firefox.*"
+    #            #regex: "^(?!.*(?:Chrome|Edge)).*Safari"
+    #      - headers:
+    #          cookie:
+    #            regex: "^(.*?;)?(type=insider)(;.*)?$"
+    # Istio Prometheus checks
+    alerts:
+      - name: "on-call Discord"
+        severity: info
+        providerRef:
+          name: on-call
+          namespace: flux-system
+    metrics:
+      - name: request-success-rate
+        interval: 1m
+        thresholdRange:
+          min: 80
+      - name: request-duration
+        interval: 1m
+        thresholdRange:
+          max: 1000
+      - name: error-rate
+        templateRef:
+          name: error-rate
+          namespace: istio-system
+        thresholdRange:
+          max: 10
+        interval: 30s
+      - name: latency
+        templateRef:
+          name: latency
+          namespace: istio-system
+        thresholdRange:
+          max: 500
+        interval: 30s
+    webhooks:
+      - name: conformance-test
+        type: pre-rollout
+        timeout: 15s
+        url: http://flagger-loadtester.sock-shop/
+        metadata:
+          type: bash
+          cmd: "curl -sd 'test' http://front-end-canary.sock-shop:8079/token | grep token"
+      - name: load-test
+        type: rollout
+        timeout: 15s
+        url: http://flagger-loadtester.sock-shop/
+        metadata:
+          type: cmd
+          cmd: "hey -z 1m -q 10 -c 2 http://front-end.sock-shop:8079/"

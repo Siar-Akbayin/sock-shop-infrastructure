@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: front-end
+  namespace: sock-shop
+spec:
+  host: front-end.sock-shop.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
