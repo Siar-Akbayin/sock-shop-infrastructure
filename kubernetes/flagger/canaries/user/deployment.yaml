@@ -1,51 +1,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: front-end
+  name: user
+  labels:
+    name: user
   namespace: sock-shop
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: front-end
+      name: user
   template:
     metadata:
       labels:
-        name: front-end
+        name: user
     spec:
       containers:
-        - name: front-end
-          image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/front-end:1.0.0
+        - name: user
+          image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/user:1.0.0
           resources:
             limits:
               cpu: 300m
-              memory: 1000Mi
+              memory: 200Mi
             requests:
               cpu: 100m
-              memory: 300Mi
+              memory: 100Mi
           ports:
-            - containerPort: 8079
+            - containerPort: 80
           env:
-            - name: SESSION_REDIS
-              value: "true"
+            - name: mongo
+              value: user-db:27017
           securityContext:
             runAsNonRoot: true
             runAsUser: 10001
             capabilities:
               drop:
                 - all
+              add:
+                - NET_BIND_SERVICE
             readOnlyRootFilesystem: true
           livenessProbe:
             httpGet:
-              path: /
-              port: 8079
+              path: /health
+              port: 80
             initialDelaySeconds: 300
             periodSeconds: 3
           readinessProbe:
             httpGet:
-              path: /
-              port: 8079
-            initialDelaySeconds: 30
+              path: /health
+              port: 80
+            initialDelaySeconds: 180
             periodSeconds: 3
       nodeSelector:
         kubernetes.io/os: linux

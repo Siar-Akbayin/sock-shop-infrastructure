@@ -1,0 +1,66 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: shipping
+  namespace: sock-shop
+spec:
+  # deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: shipping
+  # the maximum time in seconds for the canary deployment
+  # to make progress before it is rollback (default 600s)
+  progressDeadlineSeconds: 600
+  # HPA reference (optional)
+  autoscalerRef:
+    apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
+    name: shipping
+  service:
+    name: shipping
+    # container port
+    port: 80
+  analysis:
+    # schedule interval (default 60s)
+    interval: 30s
+    # max number of failed metric checks before rollback
+    threshold: 10
+    # precentage before complete rollout
+    maxWeight: 50
+    # 10% steps
+    stepWeight: 10
+    # promotion increment step (default 100)
+    stepWeightPromotion: 100
+
+    alerts:
+      - name: "on-call Discord"
+        severity: info
+        providerRef:
+          name: on-call
+          namespace: flux-system
+    #Built in Flagger metrics
+#    metrics:
+#      - name: request-success-rate
+#        interval: 1m
+#        thresholdRange:
+#          min: 90
+#      - name: request-duration
+#        interval: 1m
+#        thresholdRange:
+#          max: 1000
+#      - name: error-rate
+#        templateRef:
+#          name: error-rate
+#          namespace: istio-system
+#        thresholdRange:
+#          max: 1
+#        interval: 30s
+#      - name: latency
+#        templateRef:
+#          name: latency
+#          namespace: istio-system
+#        thresholdRange:
+#          max: 500
+#        interval: 30s
+

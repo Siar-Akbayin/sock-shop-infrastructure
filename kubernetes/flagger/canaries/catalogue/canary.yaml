@@ -1,0 +1,77 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: catalogue
+  namespace: sock-shop
+spec:
+  # deployment reference
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: catalogue
+  # the maximum time in seconds for the canary deployment
+  # to make progress before it is rollback (default 600s)
+  progressDeadlineSeconds: 600
+  # HPA reference (optional)
+  autoscalerRef:
+    apiVersion: autoscaling/v2beta2
+    kind: HorizontalPodAutoscaler
+    name: catalogue
+  service:
+    name: catalogue
+    # container port
+    port: 80
+    targetPort: 8080
+    trafficPolicy:
+      tls:
+        # use ISTIO_MUTUAL when mTLS is enabled
+        mode: ISTIO_MUTUAL
+  analysis:
+    # schedule interval (default 60s)
+    interval: 30s
+    # max number of failed metric checks before rollback
+    threshold: 25
+    # precentage before complete rollout
+    maxWeight: 70
+    # 10% steps
+    stepWeight: 10
+    # promotion increment step (default 100)
+    stepWeightPromotion: 100
+
+    alerts:
+      - name: "on-call Discord"
+        severity: info
+        providerRef:
+          name: on-call
+          namespace: flux-system
+    #Built in Flagger metrics
+#    webhooks:
+      #gate waits for status code 200 from an url. If it gets 403, rollout
+      #will be blocked (could be used by the controller in the dashboard)
+#      - name: "gate"
+#            type: confirm-rollout
+#            url: http://flagger-loadtester.test/gate/halt
+
+#      - name: load-test
+#        url: http://34.159.190.137/
+#        timeout: 5s
+#        metadata:
+#          type: cmd
+#        cmd: ["-c", "while true; do locust --host http://34.159.153.79/ -f /config/locustfile.py --clients 5 --hatch-rate 5 --num-request 100 --no-web; done"]
+
+#    metrics:
+#      - name: request-success-rate
+#        templateRef:
+#          name: request-success-rate
+#          namespace: istio-system
+#        interval: 1m
+#        thresholdRange:
+#          min: 90
+#      - name: request-duration
+#        templateRef:
+#          name: request-duration
+#          namespace: istio-system
+#        interval: 1m
+#        thresholdRange:
+#          max: 5000
+  skipAnalysis: false
