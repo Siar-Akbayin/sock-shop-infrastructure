@@ -171,7 +171,7 @@ spec:
     trafficPolicy:
       tls:
         # use ISTIO_MUTUAL when mTLS is enabled
-        mode: DISABLED
+        mode: DISABLE
   analysis:
     # schedule interval (default 60s)
     interval: 30s
@@ -465,7 +465,7 @@ spec:
     trafficPolicy:
       tls:
         # use ISTIO_MUTUAL when mTLS is enabled
-        mode: DISABLED
+        mode: DISABLE
   analysis:
     # schedule interval (default 60s)
     interval: 30s
