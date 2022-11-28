@@ -154,7 +154,7 @@ spec:
   progressDeadlineSeconds: 600
   # HPA reference (optional)
   autoscalerRef:
-    apiVersion: autoscaling/v2
+    apiVersion: autoscaling/v2beta1
     kind: HorizontalPodAutoscaler
     name: front-end
   service:
@@ -238,7 +238,7 @@ spec:
           type: cmd
           cmd: "hey -z 1m -q 10 -c 2 http://front-end.sock-shop:8079/"
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: front-end
@@ -254,11 +254,9 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        target:
-          type: Utilization
-          # scale up if usage is above
-          # 99% of the requested CPU (100m)
-          averageUtilization: 99
+        # scale up if usage is above
+        # 99% of the requested CPU (100m)
+        targetAverageUtilization: 99
 ---
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -276,7 +274,7 @@ spec:
   progressDeadlineSeconds: 600
   # HPA reference (optional)
   autoscalerRef:
-    apiVersion: autoscaling/v2
+    apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     name: orders
   service:
@@ -322,7 +320,7 @@ spec:
   #          max: 1000
   skipAnalysis: false #svc does not get traffic since other services like carts are not available
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: orders
@@ -338,11 +336,9 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        target:
-          type: Utilization
-          # scale up if usage is above
-          # 99% of the requested CPU (100m)
-          averageUtilization: 99
+        # scale up if usage is above
+        # 99% of the requested CPU (100m)
+        targetAverageUtilization: 99
 ---
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -360,7 +356,7 @@ spec:
   progressDeadlineSeconds: 600
   # HPA reference (optional)
   autoscalerRef:
-    apiVersion: autoscaling/v2
+    apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     name: payment
   service:
@@ -416,7 +412,7 @@ spec:
 #          max: 1000
 #  skipAnalysis: false #svc does not get traffic since other services like carts are not available
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: payment
@@ -454,7 +450,7 @@ spec:
   progressDeadlineSeconds: 600
   # HPA reference (optional)
   autoscalerRef:
-    apiVersion: autoscaling/v2
+    apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     name: shipping
   service:
@@ -504,7 +500,7 @@ spec:
 #          max: 500
 #        interval: 30s
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: shipping
@@ -520,11 +516,9 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        target:
-          type: Utilization
-          # scale up if usage is above
-          # 99% of the requested CPU (100m)
-          averageUtilization: 99
+        # scale up if usage is above
+        # 99% of the requested CPU (100m)
+        targetAverageUtilization: 99
 ---
 apiVersion: flagger.app/v1beta1
 kind: Canary
@@ -542,7 +536,7 @@ spec:
   progressDeadlineSeconds: 600
   # HPA reference (optional)
   autoscalerRef:
-    apiVersion: autoscaling/v2
+    apiVersion: autoscaling/v2beta2
     kind: HorizontalPodAutoscaler
     name: catalogue
   service:
@@ -604,7 +598,7 @@ spec:
   #          max: 5000
   skipAnalysis: false
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: catalogue
