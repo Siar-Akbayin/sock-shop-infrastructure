@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: carts
-        image: weaveworksdemos/carts:0.4.8
+        image: weaveworksdemos/carts:0.4.7
         env:
          - name: JAVA_OPTS
            value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
@@ -57,22 +57,22 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: carts
-  annotations:
-        prometheus.io/scrape: 'true'
-  labels:
-    name: carts
-  namespace: sock-shop
-spec:
-  ports:
-    # the port that this service should serve on
-  - port: 80
-    targetPort: 80
-  selector:
-    name: carts
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: carts
+#  annotations:
+#        prometheus.io/scrape: 'true'
+#  labels:
+#    name: carts
+#  namespace: sock-shop
+#spec:
+#  ports:
+#    # the port that this service should serve on
+#  - port: 80
+#    targetPort: 80
+#  selector:
+#    name: carts
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -187,22 +187,22 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: catalogue
-  annotations:
-        prometheus.io/scrape: 'true'
-  labels:
-    name: catalogue
-  namespace: sock-shop
-spec:
-  ports:
-    # the port that this service should serve on
-  - port: 80
-    targetPort: 80
-  selector:
-    name: catalogue
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: catalogue
+#  annotations:
+#        prometheus.io/scrape: 'true'
+#  labels:
+#    name: catalogue
+#  namespace: sock-shop
+#spec:
+#  ports:
+#    # the port that this service should serve on
+#  - port: 80
+#    targetPort: 80
+#  selector:
+#    name: catalogue
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -302,23 +302,23 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: front-end
-  annotations:
-        prometheus.io/scrape: 'true'
-  labels:
-    name: front-end
-  namespace: sock-shop
-spec:
-  type: NodePort
-  ports:
-  - port: 80
-    targetPort: 8079
-    nodePort: 30001
-  selector:
-    name: front-end
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: front-end
+#  annotations:
+#        prometheus.io/scrape: 'true'
+#  labels:
+#    name: front-end
+#  namespace: sock-shop
+#spec:
+#  type: NodePort
+#  ports:
+#  - port: 80
+#    targetPort: 8079
+#    nodePort: 30001
+#  selector:
+#    name: front-end
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -371,22 +371,22 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: orders
-  annotations:
-        prometheus.io/scrape: 'true'
-  labels:
-    name: orders
-  namespace: sock-shop
-spec:
-  ports:
-    # the port that this service should serve on
-  - port: 80
-    targetPort: 80
-  selector:
-    name: orders
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: orders
+#  annotations:
+#        prometheus.io/scrape: 'true'
+#  labels:
+#    name: orders
+#  namespace: sock-shop
+#spec:
+#  ports:
+#    # the port that this service should serve on
+#  - port: 80
+#    targetPort: 80
+#  selector:
+#    name: orders
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -740,22 +740,22 @@ spec:
       nodeSelector:
         kubernetes.io/os: linux
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: shipping
-  annotations:
-        prometheus.io/scrape: 'true'
-  labels:
-    name: shipping
-  namespace: sock-shop
-spec:
-  ports:
-    # the port that this service should serve on
-  - port: 80
-    targetPort: 80
-  selector:
-    name: shipping
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: shipping
+#  annotations:
+#        prometheus.io/scrape: 'true'
+#  labels:
+#    name: shipping
+#  namespace: sock-shop
+#spec:
+#  ports:
+#    # the port that this service should serve on
+#  - port: 80
+#    targetPort: 80
+#  selector:
+#    name: shipping
 
 ---
 apiVersion: apps/v1
