@@ -8,39 +8,39 @@ spec:
   ref:
     branch: master
   url: https://github.com/Siar-Akbayin/sock-shop-infrastructure
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: sock-shop
-  namespace: flux-system
-spec:
-  interval: 24h
-  dependsOn:
-    - name: istio-system
-      namespace: flux-system
-  sourceRef:
-    kind: GitRepository
-    name: sock-shop-infrastructure
-  path: ./kubernetes/flagger/canaries
-  prune: true
-  validation: client
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: receiver
-  namespace: flux-system
-
-spec:
-  type: LoadBalancer
-  selector:
-    app: notification-controller
-  ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: 9900
+#---
+#apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+#kind: Kustomization
+#metadata:
+#  name: sock-shop
+#  namespace: flux-system
+#spec:
+#  interval: 1m0s
+#  dependsOn:
+#    - name: istio-system
+#      namespace: flux-system
+#  sourceRef:
+#    kind: GitRepository
+#    name: sock-shop-infrastructure
+#  path: ./kubernetes/flagger/canaries
+#  prune: true
+#  validation: client
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: receiver
+#  namespace: flux-system
+#
+#spec:
+#  type: LoadBalancer
+#  selector:
+#    app: notification-controller
+#  ports:
+#    - name: http
+#      port: 80
+#      protocol: TCP
+#      targetPort: 9900
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Receiver
