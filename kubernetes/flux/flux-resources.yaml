@@ -15,7 +15,7 @@ metadata:
   name: sock-shop
   namespace: flux-system
 spec:
-  interval: 1m0s
+  interval: 24h
   dependsOn:
     - name: istio-system
       namespace: flux-system
