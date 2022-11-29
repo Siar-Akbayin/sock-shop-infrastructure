@@ -22,7 +22,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: sock-shop-infrastructure
-  path: ./kubernetes/sock-shop
+  path: ./kubernetes/flagger/canaries
   prune: true
   validation: client
 ---
