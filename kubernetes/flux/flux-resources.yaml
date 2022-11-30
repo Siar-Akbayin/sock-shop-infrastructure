@@ -165,6 +165,19 @@ spec:
   targetNamespace: istio-system
   validation: client
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: flux-bot
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/Siar-Akbayin/sock-shop-infrastructure
+  ref:
+    branch: master
+  secretRef:
+    name: github-credentials
+---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
 metadata:
@@ -184,20 +197,6 @@ spec:
     push:
       branch: master
   interval: 1m
----
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
-metadata:
-  name: flux-bot
-  namespace: flux-system
-spec:
-  interval: 1m
-  url: https://github.com/Siar-Akbayin/sock-shop-infrastructure
-  ref:
-    branch: master
-  secretRef:
-    name: github-credentials
----
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageRepository
