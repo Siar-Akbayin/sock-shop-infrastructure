@@ -139,11 +139,11 @@ spec:
       kind: Deployment
       name: flagger
       namespace: istio-system
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: kiali
-      namespace: istio-system
-    - apiVersion: apps/v1
+#    - apiVersion: apps/v1
+#      kind: Deployment
+#      name: kiali
+#      namespace: istio-system
+    - apiVersion: apps/v1Test
       kind: Deployment
       name: istio-ingressgateway
       namespace: istio-system
