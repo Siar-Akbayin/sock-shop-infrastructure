@@ -32,3 +32,4 @@ spec:
     secretRef:
       # Reference the new 'sops-gpg' secret
       name: sops-gpg
+    validation: client
