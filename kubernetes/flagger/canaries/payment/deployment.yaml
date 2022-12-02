@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: payment
-          image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/payment:1.0.0
+          image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/payment:1.0.0 # {"$imagepolicy": "flux-system:payment"}
           resources:
             limits:
               cpu: 200m

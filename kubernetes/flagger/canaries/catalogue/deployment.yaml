@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: catalogue
-          image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/catalogue:1.0.0
+          image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/catalogue:1.0.0 # {"$imagepolicy": "flux-system:catalogue"}
           command: ["/app"]
           args:
             - -port=80
