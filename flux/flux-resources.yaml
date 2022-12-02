@@ -197,6 +197,9 @@ spec:
     push:
       branch: master
   interval: 1m
+  update:
+    path: ./flux
+    strategy: Setters
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageRepository
