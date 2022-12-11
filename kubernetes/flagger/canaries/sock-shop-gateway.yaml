@@ -1,0 +1,35 @@
+#apiVersion: networking.istio.io/v1alpha3
+#kind: Gateway
+#metadata:
+#  name: public-gateway
+#  namespace: istio-system
+#spec:
+#  selector:
+#    istio: ingressgateway
+#  servers:
+#    - port:
+#        number: 80
+#        name: http
+#        protocol: HTTP
+#      hosts:
+#        - "*"
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: VirtualService
+#metadata:
+#  name: sock-shop
+#  namespace: istio-system
+#spec:
+#  hosts:
+#    - "*"
+#  gateways:
+#    - public-gateway.istio-system.svc.cluster.local
+#  http:
+#    - match:
+#        - uri:
+#            exact: /front-end
+#      route:
+#        - destination:
+#            host: front-end.sock-shop.svc.cluster.local
+#            port:
+#              number: 8079

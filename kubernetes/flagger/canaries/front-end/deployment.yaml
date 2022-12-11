@@ -1,3 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end
+  namespace: sock-shop
+  labels:
+    app: front-end
+    service: front-end
+spec:
+  ports:
+    - port: 8079
+      name: http
+  selector:
+    app: front-end
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sock-shop-front-end
+  labels:
+    account: front-end
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,6 +34,8 @@ spec:
     metadata:
       labels:
         name: front-end
+      annotations:
+        sidecar.istio.io/extraStatTags: destination_port,request_host,my_request_id,gcp_location,destination_address,my_method
     spec:
       containers:
       - name: front-end

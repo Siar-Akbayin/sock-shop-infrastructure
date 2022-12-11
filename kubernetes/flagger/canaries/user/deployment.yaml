@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         name: user
+      annotations:
+        sidecar.istio.io/extraStatTags: destination_port,request_host,my_request_id,gcp_location,destination_address,my_method
     spec:
       containers:
         - name: user
