@@ -25,9 +25,6 @@
 #  gateways:
 #    - public-gateway.istio-system.svc.cluster.local
 #  http:
-#    - match:
-#        - uri:
-#            exact: /front-end
 #      route:
 #        - destination:
 #            host: front-end.sock-shop.svc.cluster.local
