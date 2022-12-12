@@ -1,8 +1,8 @@
-#apiVersion: authentication.istio.io/v1alpha1
-#kind: Policy
-#metadata:
-#  name: mtls
-#  namespace: sock-shop
-#spec:
-#  peers:
-#    - mtls: {}
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: mtls
+  namespace: sock-shop
+spec:
+  peers:
+    - mtls: {}

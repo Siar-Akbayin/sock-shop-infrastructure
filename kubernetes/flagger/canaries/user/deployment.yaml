@@ -20,13 +20,13 @@ spec:
       containers:
         - name: user
           image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/user:1.0.0 # {"$imagepolicy": "flux-system:user"}
-#          resources:
-#            limits:
-#              cpu: 300m
-#              memory: 200Mi
-#            requests:
-#              cpu: 100m
-#              memory: 100Mi
+          resources:
+            limits:
+              cpu: 300m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
           ports:
             - containerPort: 80
           env:
