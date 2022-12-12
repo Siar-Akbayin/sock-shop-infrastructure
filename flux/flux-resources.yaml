@@ -15,7 +15,7 @@ metadata:
   name: front-end
   namespace: flux-system
 spec:
-  interval: 1m0s
+  interval: 15m0s
 #  dependsOn:
 #    - name: istio-system
 #      namespace: flux-system
@@ -32,7 +32,7 @@ metadata:
   name: shipping
   namespace: flux-system
 spec:
-  interval: 1m0s
+  interval: 15m0s
 #  dependsOn:
 #    - name: istio-system
 #      namespace: flux-system
