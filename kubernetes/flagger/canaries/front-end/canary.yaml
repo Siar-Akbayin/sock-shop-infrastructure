@@ -58,30 +58,30 @@ spec:
         providerRef:
           name: on-call
           namespace: flux-system
-   # Istio Prometheus checks
-#    metrics:
-#      - name: request-success-rate
-#        interval: 1m
-#        thresholdRange:
-#          min: 80
-#      - name: request-duration
-#        interval: 1m
-#        thresholdRange:
-#          max: 1000
-#      - name: error-rate
-#        templateRef:
-#          name: error-rate
-#          namespace: istio-system
-#        thresholdRange:
-#          max: 10
-#        interval: 30s
-#      - name: latency
-#        templateRef:
-#          name: latency
-#          namespace: istio-system
-#        thresholdRange:
-#          max: 500
-#        interval: 30s
+    Istio Prometheus checks
+    metrics:
+      - name: request-success-rate
+        interval: 1m
+        thresholdRange:
+          min: 80
+      - name: request-duration
+        interval: 1m
+        thresholdRange:
+          max: 1000
+      - name: error-rate
+        templateRef:
+          name: error-rate
+          namespace: istio-system
+        thresholdRange:
+          max: 10
+        interval: 30s
+      - name: latency
+        templateRef:
+          name: latency
+          namespace: istio-system
+        thresholdRange:
+          max: 500
+        interval: 30s
 #    webhooks:
 #      - name: conformance-test
 #        type: pre-rollout
