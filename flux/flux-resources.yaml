@@ -12,7 +12,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: sock-shop
+  name: front-end
   namespace: flux-system
 spec:
   interval: 1m0s
@@ -29,7 +29,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: sock-shop
+  name: shipping
   namespace: flux-system
 spec:
   interval: 1m0s
