@@ -16,9 +16,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m0s
-#  dependsOn:
-#    - name: istio-system
-#      namespace: flux-system
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: sock-shop-infrastructure
@@ -33,9 +33,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m0s
-#  dependsOn:
-#    - name: istio-system
-#      namespace: flux-system
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: sock-shop-infrastructure
@@ -108,26 +108,26 @@ spec:
   providerRef:
     name: notification-provider
 ---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-#kind: Kustomization
-#metadata:
-#  name: istio-operator
-#  namespace: flux-system
-#spec:
-#  timeout: 1h
-#  interval: 1m0s
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./kubernetes/istio/operator
-#  prune: true
-#  validation: client
-#  healthChecks:
-#    - apiVersion: apps/v1
-#      kind: Deployment
-#      name: istio-operator
-#      namespace: istio-operator
-#---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-operator
+  namespace: flux-system
+spec:
+  timeout: 1h
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./kubernetes/istio/operator
+  prune: true
+  validation: client
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: istio-operator
+      namespace: istio-operator
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
