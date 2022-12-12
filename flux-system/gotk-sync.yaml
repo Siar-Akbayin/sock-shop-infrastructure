@@ -19,8 +19,8 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  interval: 1m0s
-  path: ./flux
+  interval: 10m0s
+  path: ./
   prune: true
   sourceRef:
     kind: GitRepository
@@ -32,4 +32,3 @@ spec:
     secretRef:
       # Reference the new 'sops-gpg' secret
       name: sops-gpg
-  validation: client
