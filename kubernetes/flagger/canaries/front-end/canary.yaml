@@ -23,7 +23,7 @@ spec:
     portName: http
     # Istio gateways (optional)
     gateways:
-      - public-gateway.istio-system.svc.cluster.local
+      - istio-system/public-gateway
     # Istio virtual service host names (optional)
     hosts:
       #     - front-end.transparent-sock-shop.de
