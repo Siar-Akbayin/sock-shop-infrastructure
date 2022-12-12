@@ -41,17 +41,17 @@ spec:
               add:
                 - NET_BIND_SERVICE
             readOnlyRootFilesystem: true
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 80
-            initialDelaySeconds: 300
-            periodSeconds: 3
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 80
-            initialDelaySeconds: 180
-            periodSeconds: 3
+#          livenessProbe:
+#            httpGet:
+#              path: /health
+#              port: 80
+#            initialDelaySeconds: 300
+#            periodSeconds: 3
+#          readinessProbe:
+#            httpGet:
+#              path: /health
+#              port: 80
+#            initialDelaySeconds: 180
+#            periodSeconds: 3
       nodeSelector:
         kubernetes.io/os: linux
