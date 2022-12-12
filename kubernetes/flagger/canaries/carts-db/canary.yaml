@@ -14,7 +14,7 @@ spec:
   progressDeadlineSeconds: 600
   # HPA reference (optional)
   autoscalerRef:
-    apiVersion: autoscaling/v2beta2
+    apiVersion: autoscaling/v2beta1
     kind: HorizontalPodAutoscaler
     name: carts-db
   service:
