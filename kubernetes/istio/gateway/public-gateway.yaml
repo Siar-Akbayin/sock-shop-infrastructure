@@ -24,7 +24,6 @@ spec:
     - "grafana.transparent-sock-shop.de"
   gateways:
     - public-gateway.istio-system.svc.cluster.local
-
   http:
     - route:
         - destination:
@@ -41,7 +40,6 @@ spec:
     - "kiali.transparent-sock-shop.de"
   gateways:
     - public-gateway.istio-system.svc.cluster.local
-
   http:
     - route:
         - destination:
