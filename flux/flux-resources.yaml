@@ -117,9 +117,9 @@ metadata:
   name: istio-system
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: istio-operator
-  interval: 1m0s
+#  dependsOn:
+#    - name: istio-operator
+#  interval: 1m0s
   sourceRef:
     kind: GitRepository
     name: flux-system
