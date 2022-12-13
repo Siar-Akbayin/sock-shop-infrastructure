@@ -5,57 +5,49 @@ metadata:
   name: istio-default
 spec:
   profile: demo
+  meshConfig:
+    defaultConfig:
+      extraStatTags:
+        - destination_port
+        - request_host
+        - my_method
+      proxyStatsMatcher:
+        inclusionPrefixes:
+          - istio_my_custom_metric
+  values:
+    telemetry:
+      v2:
+        prometheus:
+          configOverride:
+            inboundSidecar:
+              definitions:
+                - name: my_custom_metric
+                  type: "COUNTER"
+                  value: "((node.metadata.PLATFORM_METADATA['gcp_location']).startsWith('europe') ? 0 : 1)"
+              metrics:
+                - name: requests_total
+                  dimensions:
+                    destination_port: string(destination.port)
+                    request_host: request.host
+                    my_request_id: request.id
+                    gcp_location: node.metadata.PLATFORM_METADATA['gcp_location']
+                    my_method: istio_my_new_attribute
+                - name: my_custom_metric
+                  dimensions:
+                    destination_address: string(destination.address)
+                    destination_port: string(destination.port)
+                    request_host: request.host
+                    my_method: istio_my_new_attribute
 
-#apiVersion: install.istio.io/v1alpha1
-#kind: IstioOperator
-#metadata:
-#  namespace: istio-system
-#  name: istio-default
-#spec:
-#  profile: demo
-#  meshConfig:
-#    defaultConfig:
-#      extraStatTags:
-#        - destination_port
-#        - request_host
-#        - my_method
-#      proxyStatsMatcher:
-#        inclusionPrefixes:
-#          - istio_my_custom_metric
-#  values:
-#    telemetry:
-#      v2:
-#        prometheus:
-#          configOverride:
-#            inboundSidecar:
-#              definitions:
-#                - name: my_custom_metric
-#                  type: "COUNTER"
-#                  value: "((node.metadata.PLATFORM_METADATA['gcp_location']).startsWith('europe') ? 0 : 1)"
-#              metrics:
-#                - name: requests_total
-#                  dimensions:
-#                    destination_port: string(destination.port)
-#                    request_host: request.host
-#                    my_request_id: request.id
-#                    gcp_location: node.metadata.PLATFORM_METADATA['gcp_location']
-#                    my_method: istio_my_new_attribute
-#                - name: my_custom_metric
-#                  dimensions:
-#                    destination_address: string(destination.address)
-#                    destination_port: string(destination.port)
-#                    request_host: request.host
-#                    my_method: istio_my_new_attribute
-#
-#            outboundSidecar:
-#              metrics:
-#                - name: requests_total
-#                  dimensions:
-#                    destination_port: string(destination.port)
-#                    request_host: request.host
-#            gateway:
-#              metrics:
-#                - name: requests_total
-#                  dimensions:
-#                    destination_port: string(destination.port)
-#                    request_host: request.host
+            outboundSidecar:
+              metrics:
+                - name: requests_total
+                  dimensions:
+                    destination_port: string(destination.port)
+                    request_host: request.host
+            gateway:
+              metrics:
+                - name: requests_total
+                  dimensions:
+                    destination_port: string(destination.port)
+                    request_host: request.host
