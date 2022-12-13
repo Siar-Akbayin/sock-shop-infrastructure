@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: shipping
-        image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/shipping:1.0.3 # {"$imagepolicy": "flux-system:shipping"}
+        image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/shipping:1.0.4 # {"$imagepolicy": "flux-system:shipping"}
         env:
         - name: ZIPKIN
           value: zipkin.jaeger.svc.cluster.local
