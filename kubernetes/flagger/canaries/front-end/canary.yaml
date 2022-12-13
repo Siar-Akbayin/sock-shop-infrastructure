@@ -58,7 +58,7 @@ spec:
         providerRef:
           name: on-call
           namespace: flux-system
-    Istio Prometheus checks
+    #Istio Prometheus checks
     metrics:
       - name: request-success-rate
         interval: 1m
