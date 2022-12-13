@@ -10,8 +10,3 @@ Example:
 
 `flux bootstrap github --components-extra=image-reflector-controller,image-automation-controller --owner=Siar-Akbayin --repository=sock-shop-infrastructure --path=./ --branch=master`
 
-## Apply namespaces
-First you need to apply the namespaces by navigating to the root directory and running:
-
-`kubectl apply -f ./namespaces/namespaces.yaml`
-
