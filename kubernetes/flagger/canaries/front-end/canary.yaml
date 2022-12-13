@@ -90,10 +90,10 @@ spec:
 #        metadata:
 #          type: bash
 #          cmd: "curl -sd 'test' http://front-end-canary.sock-shop:8079/token | grep token"
-#      - name: load-test
-#        type: rollout
-#        timeout: 15s
-#        url: http://flagger-loadtester.sock-shop/
-#        metadata:
-#          type: cmd
-#          cmd: "hey -z 1m -q 10 -c 2 http://front-end.sock-shop:8079/"
+      - name: load-test
+        type: rollout
+        timeout: 15s
+        url: http://flagger-loadtester.sock-shop/
+        metadata:
+          type: cmd
+          cmd: "hey -z 1m -q 10 -c 2 http://front-end.sock-shop:8079/"
