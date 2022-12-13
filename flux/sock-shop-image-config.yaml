@@ -1,207 +1,207 @@
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: front-end
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/front-end
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: front-end
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: front-end
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: carts
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/carts
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: carts
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: carts
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: catalogue
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/catalogue
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: catalogue
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: catalogue
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: catalogue-db
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/catalogue-db
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: catalogue-db
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: catalogue-db
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: orders
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/orders
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: orders
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: orders
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: payment
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/payment
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: payment
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: payment
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: shipping
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/shipping
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: shipping
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: shipping
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: user
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/user
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: user
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: user
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImageRepository
-metadata:
-  name: user-db
-  namespace: flux-system
-spec:
-  secretRef:
-    name: gcr-json-key
-  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/user-db
-  interval: 1m
----
-apiVersion: image.toolkit.fluxcd.io/v1beta1
-kind: ImagePolicy
-metadata:
-  name: user-db
-  namespace: flux-system
-spec:
-  imageRepositoryRef:
-    name: user-db
-  policy:
-    semver:
-      range: ">=1.0.0 <2.0.0"
-
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: front-end
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/front-end
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: front-end
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: front-end
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: carts
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/carts
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: carts
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: carts
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: catalogue
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/catalogue
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: catalogue
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: catalogue
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: catalogue-db
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/catalogue-db
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: catalogue-db
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: catalogue-db
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: orders
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/orders
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: orders
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: orders
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: payment
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/payment
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: payment
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: payment
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: shipping
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/shipping
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: shipping
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: shipping
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: user
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/user
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: user
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: user
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImageRepository
+#metadata:
+#  name: user-db
+#  namespace: flux-system
+#spec:
+#  secretRef:
+#    name: gcr-json-key
+#  image: europe-west3-docker.pkg.dev/privacy-with-canary/sock-shop/user-db
+#  interval: 1m
+#---
+#apiVersion: image.toolkit.fluxcd.io/v1beta1
+#kind: ImagePolicy
+#metadata:
+#  name: user-db
+#  namespace: flux-system
+#spec:
+#  imageRepositoryRef:
+#    name: user-db
+#  policy:
+#    semver:
+#      range: ">=1.0.0 <2.0.0"
+#
