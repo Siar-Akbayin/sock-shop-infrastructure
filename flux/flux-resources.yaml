@@ -219,7 +219,7 @@
 #spec:
 #  channel: flux-notifications
 #  secretRef:
-#    name: discord-url
+#    name: discord-flux-webhook
 #  type: discord
 #  username: flux-bot
 #---
