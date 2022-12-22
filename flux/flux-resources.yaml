@@ -1,18 +1,86 @@
-#apiVersion: source.toolkit.fluxcd.io/v1beta1
-#kind: GitRepository
-#metadata:
-#  name: sock-shop-infrastructure
-#  namespace: flux-system
-#spec:
-#  interval: 1m0s
-#  ref:
-#    branch: master
-#  url: https://github.com/Siar-Akbayin/sock-shop-infrastructure
-#---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: sock-shop-infrastructure
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: master
+  url: https://github.com/Siar-Akbayin/sock-shop-infrastructure
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: front-end
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: sock-shop-infrastructure
+  path: ./kubernetes/flagger/canaries/front-end
+  prune: true
+  validation: client
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: shipping
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: sock-shop-infrastructure
+  path: ./kubernetes/flagger/canaries/shipping
+  prune: true
+  validation: client
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: orders
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: sock-shop-infrastructure
+  path: ./kubernetes/flagger/canaries/orders
+  prune: true
+  validation: client
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: payment
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: sock-shop-infrastructure
+  path: ./kubernetes/flagger/canaries/payment
+  prune: true
+  validation: client
+---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 #kind: Kustomization
 #metadata:
-#  name: front-end
+#  name: carts
 #  namespace: flux-system
 #spec:
 #  interval: 15m0s
@@ -22,14 +90,14 @@
 #  sourceRef:
 #    kind: GitRepository
 #    name: sock-shop-infrastructure
-#  path: ./kubernetes/flagger/canaries/front-end
+#  path: ./kubernetes/flagger/canaries/carts
 #  prune: true
 #  validation: client
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 #kind: Kustomization
 #metadata:
-#  name: shipping
+#  name: carts-db
 #  namespace: flux-system
 #spec:
 #  interval: 15m0s
@@ -39,14 +107,14 @@
 #  sourceRef:
 #    kind: GitRepository
 #    name: sock-shop-infrastructure
-#  path: ./kubernetes/flagger/canaries/shipping
+#  path: ./kubernetes/flagger/canaries/carts-db
 #  prune: true
 #  validation: client
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 #kind: Kustomization
 #metadata:
-#  name: orders
+#  name: catalogue
 #  namespace: flux-system
 #spec:
 #  interval: 15m0s
@@ -56,14 +124,14 @@
 #  sourceRef:
 #    kind: GitRepository
 #    name: sock-shop-infrastructure
-#  path: ./kubernetes/flagger/canaries/orders
+#  path: ./kubernetes/flagger/canaries/catalogue
 #  prune: true
 #  validation: client
 #---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 #kind: Kustomization
 #metadata:
-#  name: payment
+#  name: user
 #  namespace: flux-system
 #spec:
 #  interval: 15m0s
@@ -73,99 +141,14 @@
 #  sourceRef:
 #    kind: GitRepository
 #    name: sock-shop-infrastructure
-#  path: ./kubernetes/flagger/canaries/payment
+#  path: ./kubernetes/flagger/canaries/user
 #  prune: true
 #  validation: client
 #---
-##apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-##kind: Kustomization
-##metadata:
-##  name: carts
-##  namespace: flux-system
-##spec:
-##  interval: 15m0s
-##  dependsOn:
-##    - name: istio-system
-##      namespace: flux-system
-##  sourceRef:
-##    kind: GitRepository
-##    name: sock-shop-infrastructure
-##  path: ./kubernetes/flagger/canaries/carts
-##  prune: true
-##  validation: client
-##---
-##apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-##kind: Kustomization
-##metadata:
-##  name: carts-db
-##  namespace: flux-system
-##spec:
-##  interval: 15m0s
-##  dependsOn:
-##    - name: istio-system
-##      namespace: flux-system
-##  sourceRef:
-##    kind: GitRepository
-##    name: sock-shop-infrastructure
-##  path: ./kubernetes/flagger/canaries/carts-db
-##  prune: true
-##  validation: client
-##---
-##apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-##kind: Kustomization
-##metadata:
-##  name: catalogue
-##  namespace: flux-system
-##spec:
-##  interval: 15m0s
-##  dependsOn:
-##    - name: istio-system
-##      namespace: flux-system
-##  sourceRef:
-##    kind: GitRepository
-##    name: sock-shop-infrastructure
-##  path: ./kubernetes/flagger/canaries/catalogue
-##  prune: true
-##  validation: client
-##---
-##apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-##kind: Kustomization
-##metadata:
-##  name: user
-##  namespace: flux-system
-##spec:
-##  interval: 15m0s
-##  dependsOn:
-##    - name: istio-system
-##      namespace: flux-system
-##  sourceRef:
-##    kind: GitRepository
-##    name: sock-shop-infrastructure
-##  path: ./kubernetes/flagger/canaries/user
-##  prune: true
-##  validation: client
-##---
-##apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-##kind: Kustomization
-##metadata:
-##  name: user-db
-##  namespace: flux-system
-##spec:
-##  interval: 15m0s
-##  dependsOn:
-##    - name: istio-system
-##      namespace: flux-system
-##  sourceRef:
-##    kind: GitRepository
-##    name: sock-shop-infrastructure
-##  path: ./kubernetes/flagger/canaries/user-db
-##  prune: true
-##  validation: client
-##---
 #apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 #kind: Kustomization
 #metadata:
-#  name: loadtest
+#  name: user-db
 #  namespace: flux-system
 #spec:
 #  interval: 15m0s
@@ -175,158 +158,175 @@
 #  sourceRef:
 #    kind: GitRepository
 #    name: sock-shop-infrastructure
-#  path: ./kubernetes/flagger/loadtest
+#  path: ./kubernetes/flagger/canaries/user-db
 #  prune: true
 #  validation: client
 #---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: receiver
-#  namespace: flux-system
-#
-#spec:
-#  type: LoadBalancer
-#  selector:
-#    app: notification-controller
-#  ports:
-#    - name: http
-#      port: 80
-#      protocol: TCP
-#      targetPort: 9900
-#---
-#apiVersion: notification.toolkit.fluxcd.io/v1beta1
-#kind: Receiver
-#metadata:
-#  name: flux-system
-#  namespace: flux-system
-#spec:
-#  events:
-#    - ping
-#    - push
-#  resources:
-#    - kind: GitRepository
-#      name: flux-system
-#  secretRef:
-#    name: webhook-token
-#  type: github
-#---
-#apiVersion: notification.toolkit.fluxcd.io/v1beta1
-#kind: Provider
-#metadata:
-#  name: notification-provider
-#  namespace: flux-system
-#spec:
-#  channel: flux-notifications
-#  secretRef:
-#    name: discord-flux-webhook
-#  type: discord
-#  username: flux-bot
-#---
-#apiVersion: notification.toolkit.fluxcd.io/v1beta1
-#kind: Alert
-#metadata:
-#  name: notification-alert
-#  namespace: flux-system
-#spec:
-#  eventSeverity: info
-#  eventSources:
-#    - kind: Kustomization
-#      name: '*'
-#    - kind: GitRepository
-#      name: '*'
-#    - kind: ImageRepository
-#      name: "*"
-#    - kind: ImagePolicy
-#      name: "*"
-#    - kind: ImageUpdateAutomation
-#      name: "*"
-#  providerRef:
-#    name: notification-provider
-#---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-#kind: Kustomization
-#metadata:
-#  name: istio-operator
-#  namespace: flux-system
-#spec:
-#  timeout: 1h
-#  interval: 1m0s
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./kubernetes/istio/operator
-#  prune: true
-#  validation: client
-#  healthChecks:
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: loadtest
+  namespace: flux-system
+spec:
+  interval: 15m0s
+  dependsOn:
+    - name: istio-system
+      namespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: sock-shop-infrastructure
+  path: ./kubernetes/flagger/loadtest
+  prune: true
+  validation: client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: receiver
+  namespace: flux-system
+
+spec:
+  type: LoadBalancer
+  selector:
+    app: notification-controller
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 9900
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Receiver
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  events:
+    - ping
+    - push
+  resources:
+    - kind: GitRepository
+      name: flux-system
+  secretRef:
+    name: webhook-token
+  type: github
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Provider
+metadata:
+  name: notification-provider
+  namespace: flux-system
+spec:
+  channel: flux-notifications
+  secretRef:
+    name: discord-flux-webhook
+  type: discord
+  username: flux-bot
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Alert
+metadata:
+  name: notification-alert
+  namespace: flux-system
+spec:
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: '*'
+    - kind: GitRepository
+      name: '*'
+    - kind: ImageRepository
+      name: "*"
+    - kind: ImagePolicy
+      name: "*"
+    - kind: ImageUpdateAutomation
+      name: "*"
+  providerRef:
+    name: notification-provider
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: istio-operator
+  namespace: flux-system
+spec:
+  timeout: 1h
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./kubernetes/istio/operator
+  prune: true
+  validation: client
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: istio-operator
+      namespace: istio-operator
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-system
+  namespace: flux-system
+spec:
+#  dependsOn:
+#    - name: istio-operator
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./kubernetes/istio/system
+  prune: true
+  validation: client
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: istiod
+      namespace: istio-system
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: prometheus
+      namespace: istio-system
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: flagger
+      namespace: istio-system
 #    - apiVersion: apps/v1
 #      kind: Deployment
-#      name: istio-operator
-#      namespace: istio-operator
-#---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-#kind: Kustomization
-#metadata:
-#  name: istio-system
-#  namespace: flux-system
-#spec:
-##  dependsOn:
-##    - name: istio-operator
-#  interval: 1m0s
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./kubernetes/istio/system
-#  prune: true
-#  validation: client
-#  healthChecks:
-#    - apiVersion: apps/v1
-#      kind: Deployment
-#      name: istiod
+#      name: kiali
 #      namespace: istio-system
-#    - apiVersion: apps/v1
-#      kind: Deployment
-#      name: prometheus
-#      namespace: istio-system
-#    - apiVersion: apps/v1
-#      kind: Deployment
-#      name: flagger
-#      namespace: istio-system
-##    - apiVersion: apps/v1
-##      kind: Deployment
-##      name: kiali
-##      namespace: istio-system
-#    - apiVersion: apps/v1Test
-#      kind: Deployment
-#      name: istio-ingressgateway
-#      namespace: istio-system
-#---
-#apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-#kind: Kustomization
-#metadata:
-#  name: istio-gateway
-#  namespace: flux-system
-#spec:
-#  dependsOn:
-#    - name: istio-system
-#  interval: 1m0s
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#  path: ./kubernetes/istio/gateway
-#  prune: true
-#  targetNamespace: istio-system
-#  validation: client
-#---
-#apiVersion: flagger.app/v1beta1
-#kind: AlertProvider
-#metadata:
-#  name: on-call
-#  namespace: flux-system
-#spec:
-#  type: discord
-#  channel: flagger-bot
-#  username: flagger-bot
-#  secretRef:
-#    name: discord-flagger-webhook
-#---
+    - apiVersion: apps/v1Test
+      kind: Deployment
+      name: istio-ingressgateway
+      namespace: istio-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-gateway
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: istio-system
+  interval: 1m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./kubernetes/istio/gateway
+  prune: true
+  targetNamespace: istio-system
+  validation: client
+---
+apiVersion: flagger.app/v1beta1
+kind: AlertProvider
+metadata:
+  name: on-call
+  namespace: flux-system
+spec:
+  type: discord
+  channel: flagger-bot
+  username: flagger-bot
+  secretRef:
+    name: discord-flagger-webhook
+---
